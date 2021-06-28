@@ -65,14 +65,16 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
     originsWithCandidates = origins.union([candidate])
 
     newMinSumCandidate = calculateSumDistance(originsWithCandidates, pointsClientsFactory(), old)
-    heapq.heappush(minSumSolutionCandidates, (newMinSumCandidate, i, candidate))
+    heapq.heappush(minSumSolutionCandidates, (-newMinSumCandidate, i, candidate))
     i = i + 1
+    if len(minSumSolutionCandidates) > k:
+      heapq.heappop(minSumSolutionCandidates)
 
   minKSumSolution = [] 
 
   for i in range(k):
     s = heapq.heappop(minSumSolutionCandidates)
-    minKSumSolution.append((s[0], s[2]))
+    minKSumSolution.insert(0, (-s[0], s[2])) # inserir no final
 
   logger.info(f"Recalculating, we've got those solutions: {minSumSolutionCandidates}")
 

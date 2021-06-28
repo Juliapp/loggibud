@@ -37,11 +37,11 @@ class OLDistance:
 
     if kwargs.host:
       self.osrm_config.host = kwargs.host
-      self.has_config = True
 
     if kwargs.timeout:
       self.osrm_config.timeout_s = kwargs.timeout
-      self.has_config = True
+      
+    self.has_config = True
 
 
   def distance(self, origin: Point, destination: Point):

@@ -48,7 +48,6 @@ def resolve_K(k, len_candidates):
   if k < 0:
     raise ValueError("K must greater than 0")
   if k > len_candidates:
-    print("hi")
     raise ValueError("K must be positive and greater than the number of candidates")
 
   return k
