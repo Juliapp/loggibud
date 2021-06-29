@@ -1,4 +1,6 @@
-from loggibud.v1.baselines.task_optimal_location.utils.OLDistances import OLDistance
+from loggibud.v1.baselines.task_optimal_location.utils.OLDistances import (
+  OLDDistanceMatrixGC
+)
 import pytest
 
 from loggibud.v1.types import Point
@@ -23,7 +25,7 @@ def mocked_candidates():
 
 @pytest.fixture
 def mocked_OLDistance():
-  return OLDistance("distance_matrix_great_circle")
+  return OLDDistanceMatrixGC()
   
 
 @pytest.fixture

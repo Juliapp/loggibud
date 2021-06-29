@@ -1,4 +1,9 @@
-from loggibud.v1.baselines.task_optimal_location.utils.OLDistance import OLDistance
+from loggibud.v1.baselines.task_optimal_location.utils.OLDistances import (
+  OLDDistanceMatrix,
+  OLDRouteDistance,
+  OLDDistanceMatrixGC,
+  OLDRouteDistanceGC
+)
 from loggibud.v1.types import Point
 import os
 
@@ -40,7 +45,16 @@ def resolve_calc_method(calc_method):
   if not calc_method in valid_calc_methods:
     raise ValueError(f"Invalid calc_method. The method should be one of the: {valid_calc_methods}, and if not provided distance_matrix_great_circle will be setted by default")
 
-  return OLDistance(calc_method)
+  if calc_method == 'distance_matrix':
+    old = OLDDistanceMatrix()
+  elif calc_method == 'route_distance':
+    old = OLDRouteDistance()
+  elif calc_method == 'distance_matrix_great_circle':
+    old = OLDDistanceMatrixGC()
+  elif calc_method == "route_distance_great_circle":
+    old = OLDRouteDistanceGC()
+    
+  return old
 
 def resolve_K(k, len_candidates):
   if k == None:
