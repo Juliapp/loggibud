@@ -20,9 +20,9 @@ import heapq
 from typing import List, Set
 
 from loggibud.v1.baselines.task_optimal_location.utils.generator_factories import ( 
-  pointsClientsGeneratorFactory
+  deliveriesGeneratorFactory
 )
-from loggibud.v1.baselines.task_optimal_location.utils.OLDistance import (
+from loggibud.v1.baselines.task_optimal_location.utils.OLDistances import (
   OLDistance
 )
 
@@ -52,9 +52,9 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   #set comprehension
   origins = { i.origin for i in instancesFactory() }
 
-  pointsClientsFactory = pointsClientsGeneratorFactory(instancesFactory)
+  deliveriesFactory = deliveriesGeneratorFactory(instancesFactory)
 
-  currentMinSum = calculateSumDistance(origins, pointsClientsFactory(), old)
+  currentMinSum = calculateSumDistance(origins, deliveriesFactory(), old)
   
   logger.info(f"The current MinSum is: {currentMinSum}")
   
@@ -64,7 +64,7 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   for candidate in candidates:
     originsWithCandidates = origins.union([candidate])
 
-    newMinSumCandidate = calculateSumDistance(originsWithCandidates, pointsClientsFactory(), old)
+    newMinSumCandidate = calculateSumDistance(originsWithCandidates, deliveriesFactory(), old)
     heapq.heappush(minSumSolutionCandidates, (-newMinSumCandidate, i, candidate))
     i = i + 1
     if len(minSumSolutionCandidates) > k:

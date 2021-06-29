@@ -52,24 +52,24 @@ def instancesGeneratorFactory(paths: List[str]):
 
   return instancesGenerator
 
-def pointsClientsGeneratorFactory(instancesFactory):
+def deliveriesGeneratorFactory(instancesFactory):
   """This high order function receives a instanceGenerator,
-  and returns a Generator of clients (In that case, a client must be
+  and returns a Generator of deliveries (In that case, a client must be
   all points for every delivery of the instances generator given)
 
   Typical usage example:
 
   instanceFactory = instancesGeneratorFactory(paths)
 
-  pointsClientsFactory = pointsClientsGeneratorFactory(instanceFactory)
+  deliveriesFactory = deliveriesGeneratorFactory(instanceFactory)
 
-  clients = pointsClientsFactory()
+  deliveries = deliveriesFactory()
 
   Args:
       instanceGenerator():
   """  
-  def pointsClients():
-    """Clients Factory with instancesGenerator context given
+  def deliveries():
+    """Deliveries Factory with instancesGenerator context given
 
     Returns:
         Generator[Point]
@@ -83,4 +83,4 @@ def pointsClientsGeneratorFactory(instancesFactory):
       for d in instance.deliveries
     )
 
-  return pointsClients
+  return deliveries

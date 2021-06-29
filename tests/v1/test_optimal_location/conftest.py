@@ -1,4 +1,4 @@
-from loggibud.v1.baselines.task_optimal_location.utils.OLDistance import OLDistance
+from loggibud.v1.baselines.task_optimal_location.utils.OLDistances import OLDistance
 import pytest
 
 from loggibud.v1.types import Point

@@ -3,8 +3,8 @@ This baseline implements the MinMax location query [1]
 to evaluate a given set of a potential new HUB 
 
 It calculates the nearest (Min) existent Hub 
-for each client, and them what's the most distant (Max)
-client - HUB between those nearest ones.
+for each delivery, and them what's the most distant (Max)
+Delivery - HUB between those nearest ones.
 After that, it recalculates joining the Candidates Hubies
 and check if the Max lowed down
 
@@ -14,7 +14,7 @@ Ganglin Mai, Cheng Long, "Optimal Location Queries in Road Networks",
 ACM Transactions on Database Systems (TODS), vol. 40, pp. 1, 2015.
 """
 import heapq
-from loggibud.v1.baselines.task_optimal_location.utils.OLDistance import OLDistance
+from loggibud.v1.baselines.task_optimal_location.utils.OLDistances import OLDistance
 import logging
 import math
 from typing import List, Set
@@ -22,7 +22,7 @@ from typing import List, Set
 from loggibud.v1.types import Point
 
 from loggibud.v1.baselines.task_optimal_location.utils.generator_factories import (
-  pointsClientsGeneratorFactory
+  deliveriesGeneratorFactory
 )
 
 logger = logging.getLogger(__name__)
@@ -53,9 +53,9 @@ def calculateMaxMinDistance(origins: Set[Point], clients: List[Point], old: OLDi
 def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   origins = { i.origin for i in instancesFactory() }
 
-  pointsClientsFactory = pointsClientsGeneratorFactory(instancesFactory)
+  deliveriesFactory = deliveriesGeneratorFactory(instancesFactory)
 
-  currentMaxSolution = calculateMaxMinDistance(origins, pointsClientsFactory(), old)
+  currentMaxSolution = calculateMaxMinDistance(origins, deliveriesFactory(), old)
   
   logger.info(f"The Current MaxSolution is: {currentMaxSolution}")
   
@@ -65,7 +65,7 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   for candidate in candidates:
     originsWithCandidates = origins.union([candidate])
     
-    (maxDistance, origin, client) = calculateMaxMinDistance(originsWithCandidates, pointsClientsFactory(), old)
+    (maxDistance, origin, client) = calculateMaxMinDistance(originsWithCandidates, deliveriesFactory(), old)
     heapq.heappush(maxSolutionCandidates, (maxDistance, i, origin, client))
     i = i + 1
 
