@@ -3,8 +3,8 @@ This baseline implements the MinMax location query [1]
 to evaluate a given set of a potential new HUB 
 
 It calculates the nearest (Min) existent Hub 
-for each client, and them what's the most distant (Max)
-client - HUB between those nearest ones.
+for each delivery, and them what's the most distant (Max)
+delivery - HUB between those nearest ones.
 After that, it recalculates joining the Candidates Hubies
 and check if the Max lowed down
 
@@ -32,14 +32,14 @@ logger = logging.getLogger(__name__)
 #to show on console
 logging.basicConfig(level = logging.INFO)
 
-def calculateSumDistance(origins: Set[Point], clients: List[Point], old: OLDistance):
+def calculateSumDistance(origins: Set[Point], deliveries: List[Point], old: OLDistance):
   sumDistance = 0
 
-  for client in clients:
+  for delivery in deliveries:
     minDistance = math.inf
 
     for origin in origins:
-      dist = old.distance(origin, client)
+      dist = old.distance(origin, delivery)
 
       if dist < minDistance:
         minDistance = dist

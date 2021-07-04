@@ -29,25 +29,25 @@ logger = logging.getLogger(__name__)
 #to show on console
 logging.basicConfig(level = logging.INFO)
 
-def calculateMaxMinDistance(origins: Set[Point], clients: List[Point], old: OLDistance):
+def calculateMaxMinDistance(origins: Set[Point], deliveries: List[Point], old: OLDistance):
   maxDistance = 0
 
-  for client in clients:
+  for delivery in deliveries:
     minDistance = math.inf
 
     for origin in origins:
-      dist = old.distance(origin, client)
+      dist = old.distance(origin, delivery)
       if dist < minDistance:
         minDistance = dist
         originMin = origin
-        clientMin = client
+        deliveryMin = delivery
 
     if minDistance > maxDistance:
       maxDistance = minDistance
       originMax = originMin
-      clientMax = clientMin
+      deliveryMax = deliveryMin
       
-  return (maxDistance, originMax, clientMax)
+  return (maxDistance, originMax, deliveryMax)
 
 
 def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
@@ -65,8 +65,8 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   for candidate in candidates:
     originsWithCandidates = origins.union([candidate])
     
-    (maxDistance, origin, client) = calculateMaxMinDistance(originsWithCandidates, deliveriesFactory(), old)
-    heapq.heappush(maxSolutionCandidates, (maxDistance, i, origin, client))
+    (maxDistance, origin, delivery) = calculateMaxMinDistance(originsWithCandidates, deliveriesFactory(), old)
+    heapq.heappush(maxSolutionCandidates, (maxDistance, i, origin, delivery))
     i = i + 1
 
   minKCandidates = []
