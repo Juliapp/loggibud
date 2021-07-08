@@ -66,13 +66,16 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
     originsWithCandidates = origins.union([candidate])
     
     (maxDistance, origin, delivery) = calculateMaxMinDistance(originsWithCandidates, deliveriesFactory(), old)
-    heapq.heappush(maxSolutionCandidates, (maxDistance, i, origin, delivery))
+    heapq.heappush(maxSolutionCandidates, (-maxDistance, i, origin, delivery, candidate))
     i = i + 1
+
+    if len(maxSolutionCandidates) > k:
+      heapq.heappop(maxSolutionCandidates)
 
   minKCandidates = []
   for i in range(k):
     s = heapq.heappop(maxSolutionCandidates)
-    minKCandidates.append((s[0], s[2], s[3]))
+    minKCandidates.insert(0, (-s[0], s[2], s[3], s[4]))
 
   logger.info(f"Recalculating, we've got those solutions: {maxSolutionCandidates}")
 

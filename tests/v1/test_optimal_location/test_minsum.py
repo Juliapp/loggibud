@@ -11,9 +11,9 @@ def test_minsum_solver(
   (current, [solution]) = solve(mocked_instances, mocked_candidates, mocked_OLDistance, mocked_K)
   
   assert current == 5123357.986335916
-  (solutionSum, solutionPoint) = solution
+  (solutionSum, candidate) = solution
   assert solutionSum == 4206999.083689318
-  assert solutionPoint == Point(lng=-43.684247, lat=-22.9581481)
+  assert candidate == Point(lng=-43.684247, lat=-22.9581481)
 
 def test_minsum_solver_k(
     mocked_instances,
@@ -23,6 +23,6 @@ def test_minsum_solver_k(
 
   (current, [solution0, solution1]) = solve(mocked_instances, mocked_candidates, mocked_OLDistance, 2)
   
-  (solutionSum, solutionPoint) = solution1
+  (solutionSum, candidate) = solution1
   assert solutionSum == 4260323.381126462
-  assert solutionPoint == Point(lng=-43.6941723, lat=-22.9666855)
+  assert candidate == Point(lng=-43.6941723, lat=-22.9666855)

@@ -1,5 +1,7 @@
 from loggibud.v1.types import Point
 from loggibud.v1.baselines.task_optimal_location.minmax import solve
+from loggibud.v1.baselines.task_optimal_location.geojson_script import run
+
 
 def test_minmax_solver(
     mocked_instances,
@@ -15,11 +17,13 @@ def test_minmax_solver(
   assert currentOrigin == Point(lng=-43.37769374114032, lat=-22.805996173217757)
   assert currentClient == Point(lng=-43.69207312451086, lat=-22.966707777965688)
 
-  print(solution)
-  (solutionMax, solutionOrigin, solutionClient) = solution
+  (solutionMax, solutionOrigin, solutionClient, candidate) = solution
   assert solutionMax == 27240.58022888479
   assert solutionOrigin == Point(lng=-43.37769374114032, lat=-22.805996173217757)
   assert solutionClient == Point(lng=-43.314351564049836, lat=-22.568088515564767)
+  assert candidate == Point(lng=-43.684247, lat=-22.9581481)
+
+  run(mocked_instances)
 
 
 def test_minmax_solver_k(
@@ -30,11 +34,11 @@ def test_minmax_solver_k(
 
   (current, [solution0, solution1]) = solve(mocked_instances, mocked_candidates, mocked_OLDistance, 2)
 
-  (solutionMax, solutionOrigin, solutionClient) = solution1
-  print(solutionMax, solutionOrigin, solutionClient)
+  (solutionMax, solutionOrigin, solutionClient, candidate) = solution1
   assert solutionMax == 27240.58022888479
   assert solutionOrigin == Point(lng=-43.37769374114032, lat=-22.805996173217757)
   assert solutionClient == Point(lng=-43.314351564049836, lat=-22.568088515564767)
+  assert candidate == Point(lng=-43.6941723, lat=-22.9666855)
 
 
   
