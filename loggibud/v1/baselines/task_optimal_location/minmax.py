@@ -29,8 +29,9 @@ logger = logging.getLogger(__name__)
 #to show on console
 logging.basicConfig(level = logging.INFO)
 
-def calculateMaxMinDistance(origins: Set[Point], deliveries: List[Point], old: OLDistance):
+def calculateMaxMinDistance(origins: Set[Point], deliveries: List[Point], old: OLDistance, candidate: Point = False):
   maxDistance = 0
+  improvement = 0
 
   for delivery in deliveries:
     minDistance = math.inf
@@ -46,8 +47,11 @@ def calculateMaxMinDistance(origins: Set[Point], deliveries: List[Point], old: O
       maxDistance = minDistance
       originMax = originMin
       deliveryMax = deliveryMin
+
+    if originMin == candidate:
+      improvement = improvement + 1
       
-  return (maxDistance, originMax, deliveryMax)
+  return (maxDistance, originMax, deliveryMax, improvement)
 
 
 def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
@@ -64,9 +68,8 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
 
   for candidate in candidates:
     originsWithCandidates = origins.union([candidate])
-    
-    (maxDistance, origin, delivery) = calculateMaxMinDistance(originsWithCandidates, deliveriesFactory(), old)
-    heapq.heappush(maxSolutionCandidates, (-maxDistance, i, origin, delivery, candidate))
+    (maxDistance, origin, delivery, improvement) = calculateMaxMinDistance(originsWithCandidates, deliveriesFactory(), old, candidate)
+    heapq.heappush(maxSolutionCandidates, (-maxDistance, i, origin, delivery, candidate,improvement))
     i = i + 1
 
     if len(maxSolutionCandidates) > k:
@@ -75,15 +78,27 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   minKCandidates = []
   for i in range(k):
     s = heapq.heappop(maxSolutionCandidates)
-    minKCandidates.insert(0, (-s[0], s[2], s[3], s[4]))
+
+    minKCandidates.insert(0, {
+      "result": -s[0], 
+      "origin": s[2], 
+      "delivery": s[3], 
+      "candidate": s[4],
+      "attraction": s[5]
+    })
 
   logger.info(f"Recalculating, we've got those solutions: {maxSolutionCandidates}")
 
   logger.info(f"The best K:{k} solution was: {minKCandidates}")
 
-  return (currentMaxSolution, minKCandidates)
-
-
+  return {
+    "currentSolution": {
+      "result": currentMaxSolution[0],
+      "origin": currentMaxSolution[1],
+      "delivery": currentMaxSolution[2],
+    },
+    "kSolution": minKCandidates
+  }
 
 if __name__ == '__main__':
   from loggibud.v1.baselines.task_optimal_location.utils.generator_factories import (

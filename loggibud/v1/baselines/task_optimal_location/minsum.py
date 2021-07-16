@@ -32,8 +32,9 @@ logger = logging.getLogger(__name__)
 #to show on console
 logging.basicConfig(level = logging.INFO)
 
-def calculateSumDistance(origins: Set[Point], deliveries: List[Point], old: OLDistance):
+def calculateSumDistance(origins: Set[Point], deliveries: List[Point], old: OLDistance, candidate: Point = False):
   sumDistance = 0
+  improvement = 0
 
   for delivery in deliveries:
     minDistance = math.inf
@@ -43,10 +44,14 @@ def calculateSumDistance(origins: Set[Point], deliveries: List[Point], old: OLDi
 
       if dist < minDistance:
         minDistance = dist
+        minOrigin = origin
+
+    if minOrigin == candidate:
+      improvement+= 1
 
     sumDistance += minDistance
       
-  return sumDistance
+  return sumDistance, improvement
 
 def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   #set comprehension
@@ -64,8 +69,8 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   for candidate in candidates:
     originsWithCandidates = origins.union([candidate])
 
-    newMinSumCandidate = calculateSumDistance(originsWithCandidates, deliveriesFactory(), old)
-    heapq.heappush(minSumSolutionCandidates, (-newMinSumCandidate, i, candidate))
+    (newMinSumCandidate, improvement) = calculateSumDistance(originsWithCandidates, deliveriesFactory(), old, candidate)
+    heapq.heappush(minSumSolutionCandidates, (-newMinSumCandidate, i, candidate, improvement))
     i = i + 1
     if len(minSumSolutionCandidates) > k:
       heapq.heappop(minSumSolutionCandidates)
@@ -74,13 +79,22 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
 
   for i in range(k):
     s = heapq.heappop(minSumSolutionCandidates)
-    minKSumSolution.insert(0, (-s[0], s[2])) # inserir no final
+    minKSumSolution.insert(0, {
+      "result": -s[0], 
+      "candidate": s[2],
+      "attraction": s[3]
+    }) # inserir no final
 
   logger.info(f"Recalculating, we've got those solutions: {minSumSolutionCandidates}")
 
   logger.info(f"The best K:{k} solution was: {minKSumSolution}")
 
-  return (currentMinSum, minKSumSolution)
+  return {
+    "currentSolution": {
+      "result": currentMinSum[0],
+    },
+    "kSolution": minKSumSolution
+  }
 
 
 if __name__ == '__main__':
