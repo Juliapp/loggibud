@@ -86,6 +86,9 @@ def resolve_algorithm(param):
     from loggibud.v1.baselines.task_optimal_location.minsum import solve
     return solve
 
+  raise ValueError("Invalid algoritm. Please provide a valid algoritm.")
+  
+
 def resolve_solver_response(solution):
   current = solution["currentSolution"]
   for key, value in current.items():
