@@ -1,4 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, make_response
+import json
 
 from loggibud.v1.baselines.task_optimal_location.utils.resolve_arg import (
   resolve_location_id,
@@ -15,12 +16,19 @@ from loggibud.v1.baselines.task_optimal_location.utils.generator_factories impor
 
 app = Flask(__name__)
 
+def _build_cors_prelight_response():
+  response = make_response()
+  response.headers.add("Access-Control-Allow-Origin", "*")
+  response.headers.add('Access-Control-Allow-Headers', "*")
+  response.headers.add('Access-Control-Allow-Methods', "*")
+  return response
+
 @app.route('/run', methods=['GET'])
 def run():
   body = request.get_json()
   try:
-    paths = resolve_location_id('test')
-    # paths = resolve_location_id(body['location_id'])
+    # paths = resolve_location_id('test')
+    paths = resolve_location_id(body['location_id'])
 
     instances = instancesGeneratorFactory(paths)
 
@@ -32,10 +40,20 @@ def run():
 
     solver = resolve_algorithm(body["algorithm"])
 
-    response = solver(instances, candidates, old, k)
+    response = _build_cors_prelight_response()
+
+    response.data = solver(instances, candidates, old, k)
+
+    # response = solver(instances, candidates, old, k)
   except ValueError as e:
     return { "message": str(e) }, 422
 
   return resolve_solver_response(response)
+
+@app.route('/get-algorithms', methods=['GET']) 
+def getAlgorithms():
+  response = _build_cors_prelight_response()
+  response.data = json.dumps(['minmax', 'minsum'])
+  return response
 
 app.run()
