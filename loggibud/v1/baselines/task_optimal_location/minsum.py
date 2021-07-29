@@ -83,7 +83,7 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
       "result": -s[0], 
       "candidate": s[2],
       "attraction": s[3]
-    }) # inserir no final
+    })
 
   logger.info(f"Recalculating, we've got those solutions: {minSumSolutionCandidates}")
 

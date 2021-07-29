@@ -43,7 +43,7 @@ def run():
 
     res = solver(instances, candidates, old, k)
 
-    return _build_cors_prelight_response(resolve_solver_response(res))
+    return _build_cors_prelight_response(res)
 
   except ValueError as e:
     return { "message": str(e) }, 422

@@ -78,20 +78,4 @@ def resolve_algorithm(param):
     return solve
 
   raise ValueError("Invalid algoritm. Please provide a valid algoritm.")
-  
-
-def resolve_solver_response(solution):
-  current = solution["currentSolution"]
-  for key, value in current.items():
-    if isinstance(value, Point):
-      solution["currentSolution"][key] = [value.lng, value.lat]
-
-  kSol = solution["kSolution"]
-  for i, val in enumerate(kSol):
-    for j, value in val.items():
-      if isinstance(value, Point):
-        solution["kSolution"][i][j] = [value.lng, value.lat]
-        
-  return solution
-
-  
+    

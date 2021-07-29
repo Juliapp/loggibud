@@ -80,11 +80,13 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
     s = heapq.heappop(maxSolutionCandidates)
 
     minKCandidates.insert(0, {
-      "result": -s[0], 
-      "origin": s[2], 
-      "delivery": s[3], 
+      "result": -s[0],  
       "candidate": s[4],
-      "attraction": s[5]
+      "attraction": s[5],
+      "detail": {
+        "origin": s[2], 
+        "delivery": s[3],
+      }
     })
 
   logger.info(f"Recalculating, we've got those solutions: {maxSolutionCandidates}")
@@ -94,8 +96,10 @@ def solve(instancesFactory, candidates: List[Point], old: OLDistance, k: int):
   return {
     "currentSolution": {
       "result": currentMaxSolution[0],
-      "origin": currentMaxSolution[1],
-      "delivery": currentMaxSolution[2],
+      "detail": {
+        "origin": currentMaxSolution[1],
+        "delivery": currentMaxSolution[2],
+      }
     },
     "kSolution": minKCandidates
   }
