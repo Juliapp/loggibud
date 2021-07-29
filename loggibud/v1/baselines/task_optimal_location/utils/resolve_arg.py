@@ -69,15 +69,6 @@ def resolve_K(k, len_candidates):
 
   return k
 
-def resolve_response(message, content_name=False, content=False):
-  response = {}
-  response["message"] = message
-
-  if(content_name and content):
-    response["content_name"] = content
-
-  return response
-
 def resolve_algorithm(param):
   if(param == "minmax"):
     from loggibud.v1.baselines.task_optimal_location.minmax import solve
