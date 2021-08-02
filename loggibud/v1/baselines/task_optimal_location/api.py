@@ -2,7 +2,6 @@ from flask import Flask, request
 from flask_cors import CORS
 import json
 
-
 from loggibud.v1.baselines.task_optimal_location.utils.areas import getLoggiAreas
 
 from loggibud.v1.baselines.task_optimal_location.utils.resolve_arg import (
@@ -21,9 +20,8 @@ CORS(app)
 
 @app.route('/run', methods=['POST'])
 def run():
-  body = request.get_json()["data"]
+  body = request.get_json()["params"]
   try:
-    # paths = resolve_location_id('test')
     paths = resolve_location_id(body['location_id'])
 
     instances = instancesGeneratorFactory(paths)

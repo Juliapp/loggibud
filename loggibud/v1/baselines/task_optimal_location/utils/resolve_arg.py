@@ -29,15 +29,9 @@ def resolve_candidates(args):
   if size == 0:
     raise ValueError("Candidates not provided. Please insert a list of candidates.")
 
-  if not size % 2 == 0:
-    raise ValueError("The number of coordinates must be even.")
-
-  candidates = []
-
-  for i in range(0, size, 2):
-    candidates.append(Point(lat=args[i], lng=args[i+1]))
+  candidates = [Point(lat=candidate["lat"], lng=candidate["lng"]) for candidate in args]
   
-  return (candidates, size/2)
+  return (candidates, len(args))
 
 def resolve_calc_method(calc_method):
   valid_calc_methods = ["distance_matrix", "route_distance", "distance_matrix_great_circle", "route_distance_great_circle"]
