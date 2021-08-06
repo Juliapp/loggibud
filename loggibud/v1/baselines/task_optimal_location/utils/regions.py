@@ -26,7 +26,7 @@ def findOneCoordPerId(cvrp_path):
 
   return coords
 
-def getLoggiAreas():
+def getLoggiRegions():
   """
   This function is designated to get the Loggi's working area around Brazil.
   It uses CVRPInstance files provided by Loggibud project (Available at https://github.com/loggi/loggibud)
@@ -36,7 +36,7 @@ def getLoggiAreas():
   cvrp_path = "data/cvrp-instances-1.0/dev"
   modified_in = os.path.getmtime(cvrp_path)
 
-  cache_path = 'loggibud/v1/baselines/task_optimal_location/utils/areas_cache'
+  cache_path = 'loggibud/v1/baselines/task_optimal_location/utils/regions_cache'
   try:
     with open( cache_path , 'r') as cache_file:
         jsonFile = json.load(cache_file)

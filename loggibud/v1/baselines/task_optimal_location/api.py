@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 import json
 
-from loggibud.v1.baselines.task_optimal_location.utils.areas import getLoggiAreas
+from loggibud.v1.baselines.task_optimal_location.utils.regions import getLoggiRegions
 
 from loggibud.v1.baselines.task_optimal_location.utils.resolve_arg import (
   resolve_location_id,
@@ -48,9 +48,9 @@ def run():
 def getAlgorithms():
   return json.dumps(['minmax', 'minsum'])
 
-@app.route('/get-areas', methods=['GET']) 
-def getAreas():
-  return json.dumps(getLoggiAreas())
+@app.route('/get-regions', methods=['GET']) 
+def getRegions():
+  return json.dumps(getLoggiRegions())
 
 
 app.run()
