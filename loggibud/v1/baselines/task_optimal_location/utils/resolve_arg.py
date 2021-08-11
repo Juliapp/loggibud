@@ -4,6 +4,11 @@ from loggibud.v1.baselines.task_optimal_location.utils.OLDistances import (
   OLDDistanceMatrixGC,
   OLDRouteDistanceGC
 )
+
+from loggibud.v1.baselines.task_optimal_location.utils.regions import (
+  regionDeliveries,
+  regionOrigins,
+)
 from loggibud.v1.types import Point
 import os
 
@@ -72,4 +77,12 @@ def resolve_algorithm(param):
     return solve
 
   raise ValueError("Invalid algoritm. Please provide a valid algoritm.")
+
+def resolve_point_type(param):
+  if not param in ["deliveries", "hubs"]:
+    raise ValueError("Invalid Point Type. Please provide a valid point type.")
+
+  if param == "deliveries": return regionDeliveries
+  if param == "hubs": return regionOrigins
+  
     

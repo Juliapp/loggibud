@@ -2,7 +2,7 @@ from json.decoder import JSONDecodeError
 import os
 import json
 
-def findOneCoordPerId(cvrp_path):
+def findOneCoordById(cvrp_path):
   
   list_dirs = os.listdir(cvrp_path)
 
@@ -51,7 +51,7 @@ def getLoggiRegions():
 
   cache_file = open( cache_path, 'w')
   jsonFile = {}
-  coords = findOneCoordPerId(cvrp_path)
+  coords = findOneCoordById(cvrp_path)
   jsonFile['modified_in'] = modified_in
   jsonFile['coords'] = coords
 
@@ -59,3 +59,37 @@ def getLoggiRegions():
   cache_file.write(json.dumps(jsonFile))
 
   return coords
+
+def jsonBytesConverter(data):
+  return data
+
+
+def regionDeliveries(paths):
+  points = []
+  for path in paths:
+    for json_file in os.listdir(path): 
+      if json_file.endswith('.json'):
+        with open(os.path.join(path, json_file)) as f:
+            data = json.load(f)
+            for delivery in data['deliveries']:
+              points.append(pointFormat(delivery['point']))
+  return points
+
+def regionOrigins(paths):
+  points = []
+  for path in paths:
+    for json_file in os.listdir(path): 
+      if json_file.endswith('.json'):
+        with open(os.path.join(path, json_file)) as f:
+            data = json.load(f)
+            points.append(pointFormat(data['origin']))
+  return points
+
+
+def pointFormat(point):
+  DECIMAL_DIGITS_LEN = 7
+  p = float(10**DECIMAL_DIGITS_LEN)
+  lat = int(point['lat'] * p)/p
+  lng = int(point['lng'] * p)/p
+
+  return {"lat":lat,"lng":lng}
