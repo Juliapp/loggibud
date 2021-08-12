@@ -65,25 +65,32 @@ def jsonBytesConverter(data):
 
 
 def regionDeliveries(paths):
-  points = []
+  points = {}
   for path in paths:
     for json_file in os.listdir(path): 
       if json_file.endswith('.json'):
         with open(os.path.join(path, json_file)) as f:
             data = json.load(f)
             for delivery in data['deliveries']:
-              points.append(pointFormat(delivery['point']))
-  return points
+              # Preventing duplicated values
+              point = pointFormat(delivery['point'])
+              key = json.dumps(point, sort_keys=True)
+              points[key] = point
+
+  return list(points.values())
 
 def regionOrigins(paths):
-  points = []
+  points = {}
   for path in paths:
     for json_file in os.listdir(path): 
       if json_file.endswith('.json'):
         with open(os.path.join(path, json_file)) as f:
             data = json.load(f)
-            points.append(pointFormat(data['origin']))
-  return points
+            # Preventing duplicated values
+            point = pointFormat(data['origin'])
+            key = json.dumps(point, sort_keys=True)
+            points[key] = point
+  return list(points.values())
 
 
 def pointFormat(point):

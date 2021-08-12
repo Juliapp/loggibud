@@ -28,7 +28,7 @@ CORS(app)
 
 @app.route('/run', methods=['POST'])
 def run():
-  body = request.get_json()
+  body = request.get_json()["data"]
   try:
     paths = resolve_location_id(body['location_id'])
 
@@ -61,11 +61,11 @@ def getRegions():
 
 @app.route('/get-region-data', methods=['GET'])
 def getRegionData():
-  body = request.get_json()
+  args = request.args.get
   try:
-    paths = resolve_location_id(body['location_id'])
+    paths = resolve_location_id(args('location_id'))
 
-    region_generator = resolve_point_type(body['point_type'])
+    region_generator = resolve_point_type(args('point_type'))
 
     data = region_generator(paths)
 
