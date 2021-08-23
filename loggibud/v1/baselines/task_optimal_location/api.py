@@ -66,7 +66,7 @@ def getRegionData():
   try:
     paths = resolve_location_id(args('location_id'))
 
-    percentage = resolve_region_data_percentage(args('percentage'))
+    percentage = resolve_region_data_percentage(float(args('percentage')))
 
     region_generator = resolve_point_type(args('point_type'))
 
