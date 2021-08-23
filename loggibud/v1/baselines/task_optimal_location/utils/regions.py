@@ -64,7 +64,7 @@ def jsonBytesConverter(data):
   return data
 
 
-def regionDeliveries(paths):
+def regionDeliveries(paths, percentage):
   points = {}
   for path in paths:
     for json_file in os.listdir(path): 
@@ -79,7 +79,7 @@ def regionDeliveries(paths):
 
   return list(points.values())
 
-def regionOrigins(paths):
+def regionOrigins(paths, percentage):
   points = {}
   for path in paths:
     for json_file in os.listdir(path): 
@@ -95,8 +95,7 @@ def regionOrigins(paths):
 
 def pointFormat(point):
   DECIMAL_DIGITS_LEN = 7
-  p = float(10**DECIMAL_DIGITS_LEN)
-  lat = int(point['lat'] * p)/p
-  lng = int(point['lng'] * p)/p
-
+  factor = 10.0 ** DECIMAL_DIGITS_LEN
+  lat = int(point['lat'] * factor)/factor
+  lng = int(point['lng'] * factor)/factor
   return {"lat":lat,"lng":lng}
