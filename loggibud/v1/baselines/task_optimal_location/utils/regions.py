@@ -1,6 +1,7 @@
 from json.decoder import JSONDecodeError
 import os
 import json
+from decimal import Decimal
 
 def findOneCoordById(cvrp_path):
   
@@ -95,8 +96,7 @@ def regionOrigins(paths):
 
 def pointFormat(point):
   DECIMAL_DIGITS_LEN = 7
-  p = float(10**DECIMAL_DIGITS_LEN)
-  lat = int(point['lat'] * p)/p
-  lng = int(point['lng'] * p)/p
-
+  factor = 10.0 ** DECIMAL_DIGITS_LEN
+  lat = int(point['lat'] * factor)/factor
+  lng = int(point['lng'] * factor)/factor
   return {"lat":lat,"lng":lng}
