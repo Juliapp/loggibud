@@ -85,4 +85,10 @@ def resolve_point_type(param):
   if param == "deliveries": return regionDeliveries
   if param == "hubs": return regionOrigins
   
-    
+def resolve_region_data_percentage(percentage):
+  if percentage == None:
+    return 1
+  if percentage < 0 or percentage > 1:
+    raise ValueError("Percentage must greater than 0 and lower than 1.")
+
+  return percentage

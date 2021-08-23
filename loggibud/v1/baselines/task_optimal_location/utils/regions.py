@@ -1,6 +1,7 @@
 from json.decoder import JSONDecodeError
 import os
 import json
+from random import random
 
 def findOneCoordById(cvrp_path):
   
@@ -72,10 +73,12 @@ def regionDeliveries(paths, percentage):
         with open(os.path.join(path, json_file)) as f:
             data = json.load(f)
             for delivery in data['deliveries']:
-              # Preventing duplicated values
-              point = pointFormat(delivery['point'])
-              key = json.dumps(point, sort_keys=True)
-              points[key] = point
+              #ensure to return just a percend of the dataset
+              if random() <= percentage:
+                # Preventing duplicated values
+                point = pointFormat(delivery['point'])
+                key = json.dumps(point, sort_keys=True)
+                points[key] = point
 
   return list(points.values())
 

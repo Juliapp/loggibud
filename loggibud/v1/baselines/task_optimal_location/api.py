@@ -16,7 +16,8 @@ from loggibud.v1.baselines.task_optimal_location.utils.resolve_arg import (
   resolve_calc_method,
   resolve_K,
   resolve_algorithm,
-  resolve_point_type
+  resolve_point_type,
+  resolve_region_data_percentage
 )
 
 from loggibud.v1.baselines.task_optimal_location.utils.generator_factories import (
@@ -65,9 +66,11 @@ def getRegionData():
   try:
     paths = resolve_location_id(args('location_id'))
 
+    percentage = resolve_region_data_percentage(args('percentage'))
+
     region_generator = resolve_point_type(args('point_type'))
 
-    data = region_generator(paths)
+    data = region_generator(paths, percentage)
 
     compressed = compress(data)
     
