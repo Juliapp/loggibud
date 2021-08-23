@@ -88,6 +88,12 @@ def resolve_point_type(param):
 def resolve_region_data_percentage(percentage):
   if percentage == None:
     return 1
+
+  try:
+    percentage = float(percentage)
+  except ValueError:
+    raise ValueError("Percentage must be a float")
+
   if percentage < 0 or percentage > 1:
     raise ValueError("Percentage must greater than 0 and lower than 1.")
 
