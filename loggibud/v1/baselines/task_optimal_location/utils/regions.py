@@ -77,7 +77,7 @@ def regionDeliveries(paths, percentage):
               if random() <= percentage:
                 # Preventing duplicated values
                 point = pointFormat(delivery['point'])
-                key = json.dumps(point, sort_keys=True)
+                key = delivery['id']
                 points[key] = point
 
   return list(points.values())
