@@ -87,3 +87,6 @@ def create_app():
 
   return app
   # app.run()
+
+
+create_app().run()
