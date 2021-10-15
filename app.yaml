@@ -13,7 +13,7 @@
 # limitations under the License.
 
 runtime: python27
-api_version: 1.0
+api_version: 1
 entrypoint: PYTHONPATH=. poetry gunicorn -b :$5000 "loggibud.v1.baselines.task_optimal_location.api:create_app()"
 threadsafe: true
 
