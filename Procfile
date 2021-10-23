@@ -1,1 +1,0 @@
-olapi: gunicorn "loggibud.v1.baselines.task_optimal_location.api:create_app()"
